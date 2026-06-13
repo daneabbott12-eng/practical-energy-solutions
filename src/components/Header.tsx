@@ -23,6 +23,14 @@ export default function Header() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/contact"
+              className="rounded-md bg-brand px-3 py-1.5 text-white transition-colors hover:bg-brand-dark"
+            >
+              Get a quote
+            </Link>
+          </li>
         </ul>
       </nav>
 
@@ -37,6 +45,12 @@ export default function Header() {
             {service.title}
           </Link>
         ))}
+        <Link
+          href="/contact"
+          className="whitespace-nowrap font-semibold text-brand"
+        >
+          Get a quote
+        </Link>
       </div>
     </header>
   );
