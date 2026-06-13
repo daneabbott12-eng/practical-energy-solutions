@@ -1,52 +1,64 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const TARGET_DIR = path.join(process.env.USERPROFILE, 'Desktop/PES_Operations/incoming_scrapes');
 
-const mockMunicipalFeed = [
-  {
-    id: "MUNI-2026-1014",
-    agency: "City of Oklahoma City and Trusts",
-    title: "Lincoln Park Golf Course - Maintenance Building Electrical Service Upgrade",
-    description: "Emergency installation of a 400A commercial service panel. Includes complete breakdown of existing structural components, code-compliant conduit installation, and branch breaker panel configuration.",
-    source_portal: "BidNet Direct",
-    date_scraped: "2026-06-13"
-  },
-  {
-    id: "MUNI-2026-1015",
-    agency: "OMES Central Purchasing (State of OK)",
-    title: "OKC Agency Complex - Facility Wind Turbine Integration Block-B",
-    description: "Procurement, architectural mounting, and structural tie-in of secondary micro wind turbines to supply auxiliary renewable power grids.",
-    source_portal: "State Solicitations Portal",
-    date_scraped: "2026-06-13"
-  },
-  {
-    id: "MUNI-2026-1016",
-    agency: "Moore Public Schools",
-    title: "Central Elementary - Classroom Lighting Overhaul & Remodel",
-    description: "Retrofitting 42 classrooms with low-voltage energy-efficient LED ballast arrays. Contractor must pull required commercial municipal permits and follow absolute NEC requirements.",
-    source_portal: "Suburban School Procurement Board",
-    date_scraped: "2026-06-13"
+/**
+ * Normalizes incoming raw data streams captured from official 
+ * municipal notification networks or unified email ingest points.
+ */
+function ingestExternalBidStream(rawPayload) {
+  if (!rawPayload || typeof rawPayload !== 'object') {
+    console.error("[ERROR]: Invalid incoming data block format.");
+    return;
   }
-];
 
-function fetchIncomingSolicitations() {
-  console.log("Connecting to OKC Metropolitan procurement syndication channels...");
-  
+  // Ensure target ingestion workspace directory is present
   if (!fs.existsSync(TARGET_DIR)) {
     fs.mkdirSync(TARGET_DIR, { recursive: true });
   }
 
-  let count = 0;
-  mockMunicipalFeed.forEach(solicitation => {
-    const fileName = `feed_${solicitation.id}.json`;
-    const fullOutputPath = path.join(TARGET_DIR, fileName);
-    
-    fs.writeFileSync(fullOutputPath, JSON.stringify(solicitation, null, 2));
-    count++;
-  });
+  // Generate a deterministic hash signature based on the title to avoid processing duplicates
+  const hashSignature = crypto.createHash('md5').update(rawPayload.title).digest('hex').substring(0, 8);
+  const formattedFileName = `live_feed_${hashSignature}.json`;
+  const fullDestinationPath = path.join(TARGET_DIR, formattedFileName);
 
-  console.log(`Successfully ingested and cached ${count} raw solicitation files into incoming operations folder.`);
+  const normalizedBid = {
+    id: rawPayload.solicitation_number || `OKC-LIVE-${hashSignature.toUpperCase()}`,
+    agency: rawPayload.owner_agency || "Unknown Regional Agency",
+    title: rawPayload.title,
+    description: rawPayload.scope_of_work || rawPayload.description || "",
+    source_portal: rawPayload.platform_source || "Vendor Portal Stream",
+    date_scraped: new Date().toISOString().split('T')[0]
+  };
+
+  try {
+    fs.writeFileSync(fullDestinationPath, JSON.stringify(normalizedBid, null, 2));
+    console.log(`[INGESTED]: Cached raw data file for: "${normalizedBid.title}"`);
+  } catch (err) {
+    console.error(`[ERROR]: Failed writing payload data to operations space: ${err.message}`);
+  }
 }
 
-fetchIncomingSolicitations();
+// SIMULATION: Simulating incoming network packets received via official notifications
+const realWorldIncomingStream = [
+  {
+    solicitation_number: "2026-B-OKC-904",
+    owner_agency: "City of Oklahoma City / Public Works",
+    title: "Overholser Ranger Station - Interior Commercial Remodel & Panel Upgrade",
+    scope_of_work: "Provide all materials, labor, and equipment required to complete the facility remodel. Demolish old wiring layouts, mount new architectural conduit runs, and install modern electrical panels up to local code standard.",
+    platform_source: "BidNet Direct (OKC Partner Gateway)"
+  },
+  {
+    solicitation_number: "2026-OMES-881",
+    owner_agency: "State of Oklahoma - Central Purchasing",
+    title: "Capital Complex Maintenance Grounds - Photovoltaic Array Infrastructure",
+    scope_of_work: "Procurement, framing, and installation of rooftop solar panel mounting grids and localized renewable grid tie-ins across the main maintenance facility layout.",
+    platform_source: "OMES Supplier Portal"
+  }
+];
+
+console.log("Initializing secure local operations intake receiver...");
+realWorldIncomingStream.forEach(bidPacket => ingestExternalBidStream(bidPacket));
+console.log("Intake stream processing completed.");
