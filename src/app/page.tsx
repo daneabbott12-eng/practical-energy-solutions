@@ -1,97 +1,161 @@
-import React from 'react';
-import QuoteForm from '@/components/QuoteForm';
+import Link from "next/link";
+import type { Metadata } from "next";
+import CallButton from "@/components/CallButton";
+import CtaSection from "@/components/CtaSection";
+import FaqSection from "@/components/FaqSection";
+import QuoteForm from "@/components/QuoteForm";
+import TrustBar from "@/components/TrustBar";
+import { BUSINESS, SERVICE_AREAS } from "@/lib/business";
+import { generalFaqs } from "@/lib/faqs";
+import { buildMetadata } from "@/lib/seo";
+import { getAllServices } from "@/lib/services";
+
+export const metadata: Metadata = buildMetadata({
+  title: "Licensed Electrician in Oklahoma City, OK",
+  description:
+    "Licensed, insured, code-compliant electrical contractor serving Oklahoma City, Edmond, Norman, and the OKC metro. Panel upgrades, rewiring, EV chargers, and same-week troubleshooting. Free quotes.",
+  path: "/",
+  // Root page shares a route segment with the root layout, so the title
+  // template doesn't apply — see buildMetadata.
+  absoluteTitle: true,
+});
 
 export default function HomePage() {
-  const services = [
-    {
-      title: 'Electrical Troubleshooting',
-      desc: 'Expert diagnostic services for flickering lights, tripped breakers, and complex commercial or residential electrical faults.',
-      icon: '⚡'
-    },
-    {
-      title: 'Commercial & Residential Remodels',
-      desc: 'Complete electrical system overhauls, custom lighting layouts, and panel upgrades tailored to your home or business renovation.',
-      icon: '🏗️'
-    },
-    {
-      title: 'Dedicated EV Charger Installation',
-      desc: 'Professional Level 2 EV charging station installations with complete load calculations and dedicated safety breakers.',
-      icon: '🔌'
-    },
-    {
-      title: 'New Construction Wiring',
-      desc: 'Precision rough-ins, comprehensive service panel builds, and structural conduit routing built strictly to NEC code compliance.',
-      icon: '🏢'
-    }
-  ];
+  // Services come from the registry in src/lib/services.ts — the home page no
+  // longer keeps its own copy of the list. One source of truth means the nav,
+  // footer, sitemap, and schema can never disagree with what's on this page.
+  const services = getAllServices();
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-24 md:pb-0">
-      {/* Hero Section */}
-      <section className="bg-slate-900 text-white py-16 px-4 text-center md:py-24">
-        <div className="max-w-4xl mx-auto">
-          <span className="text-amber-500 font-semibold tracking-wider uppercase text-sm block mb-3">
-            Licensed, Bonded & Insured OKC Electrical Contractor
-          </span>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            Practical Energy Solutions
-          </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-8">
-            Providing professional, safety-conscious commercial and residential electrical services across the Oklahoma City metropolitan area.
+    <>
+      {/* Hero — leads with credentials and locality, not the company name.
+          "Licensed Electrician in Oklahoma City" is what people search; the
+          brand name is what they read after they've decided to trust it. */}
+      <section className="bg-slate-900 px-4 py-16 text-center text-white md:py-24">
+        <div className="mx-auto max-w-4xl">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-amber-500">
+            Licensed · Bonded · Insured · Oklahoma CIB Contractor
           </p>
-          <a
-            href="tel:4055550199"
-            className="inline-block bg-amber-500 text-slate-950 px-8 py-4 rounded font-bold text-lg hover:bg-amber-400 transition"
-          >
-            Call Now: (405) 555-0199
-          </a>
+          <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
+            Licensed Electrician in Oklahoma City
+          </h1>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-300 md:text-xl">
+            Code-compliant electrical work for homes and businesses across the
+            OKC metro — panel upgrades, rewiring, EV chargers, lighting, and
+            troubleshooting, with fast dispatch and free quotes on planned work.
+          </p>
+
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <CallButton
+              location="hero"
+              label={`Call Now: ${BUSINESS.phone.display}`}
+            />
+            <Link
+              href="/contact"
+              data-cta="quote"
+              data-cta-location="hero"
+              className="inline-flex min-h-[44px] items-center justify-center rounded border-2 border-white/80 px-6 py-3 font-bold tracking-wide text-white transition hover:bg-white hover:text-slate-900"
+            >
+              Get a Free Quote
+            </Link>
+          </div>
+
+          <p className="mt-5 text-sm text-slate-400">
+            {BUSINESS.hoursSummary} · Serving OKC, Edmond, Norman, Moore & the
+            surrounding metro
+          </p>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-16 px-4 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-4 text-slate-900">Our Services</h2>
-        <p className="text-center text-slate-600 mb-12 max-w-xl mx-auto">
-          Professional craftsmanship engineered for safety and absolute code compliance.
-        </p>
-        
-        <div className="grid gap-8 md:grid-cols-2">
-          {services.map((svc, idx) => (
-            <div key={idx} className="bg-white p-8 rounded-lg shadow-sm border border-slate-200 hover:border-amber-500/50 transition">
-              <div className="text-3xl mb-4">{svc.icon}</div>
-              <h3 className="text-xl font-bold mb-2">{svc.title}</h3>
-              <p className="text-slate-600 leading-relaxed">{svc.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <TrustBar />
 
-      {/* Intake / Quote Form Section */}
-      <section className="bg-slate-200 py-16 px-4">
-        <div className="max-w-xl mx-auto">
-          <div className="bg-white p-8 rounded-xl shadow-md border border-slate-300">
-            <h2 className="text-2xl font-bold mb-2 text-slate-900 text-center">Request a Quote</h2>
-            <p className="text-slate-600 text-sm text-center mb-6">
-              Tell us about your project or troubleshooting needs. We'll review your details and reach out shortly.
-            </p>
-            <QuoteForm />
+      {/* Services */}
+      <section id="services" className="bg-slate-50 px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-3xl font-bold text-slate-900">
+            Electrical Services We Provide
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-slate-600">
+            Every job is permitted where required, wired to the National
+            Electrical Code, and inspected before we call it finished.
+          </p>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/${service.slug}`}
+                className="group flex flex-col rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-amber-500/60 hover:shadow-md"
+              >
+                <h3 className="text-lg font-bold text-slate-900">
+                  {service.title}
+                </h3>
+                <p className="mt-1 text-sm font-semibold text-amber-700">
+                  {service.tagline}
+                </p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
+                  {service.description}
+                </p>
+                <span className="mt-4 text-sm font-bold text-slate-900 group-hover:text-amber-700">
+                  Learn more &rarr;
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Sticky Mobile Tap-To-Call Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 p-4 flex items-center justify-between z-50 md:hidden">
-        <div>
-          <p className="text-xs text-slate-400 uppercase font-semibold">Need Service?</p>
-          <p className="text-sm font-bold text-white">Practical Energy Solutions</p>
+      {/* Service areas — internal links that give the location pages crawl
+          equity from the highest-authority page on the site. */}
+      <section className="bg-white px-4 py-16">
+        <div className="mx-auto max-w-5xl text-center">
+          <h2 className="text-3xl font-bold text-slate-900">
+            Serving the Oklahoma City Metro
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+            Local crews, local drive times. Pick your city for details on what we
+            do there.
+          </p>
+          <ul className="mt-8 flex flex-wrap justify-center gap-3">
+            {SERVICE_AREAS.map((area) => (
+              <li key={area.slug}>
+                <Link
+                  href={`/service-areas/${area.slug}`}
+                  className="flex min-h-[44px] items-center rounded-full border border-slate-300 px-5 font-medium text-slate-700 transition hover:border-amber-500 hover:text-amber-700"
+                >
+                  {area.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-        <a
-          href="tel:4055550199"
-          className="bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded text-sm tracking-wide shadow-lg active:scale-95 transition"
-        >
-          📞 TAP TO CALL
-        </a>
-      </div>
-    </div>
+      </section>
+
+      <CtaSection
+        heading="No power? Breaker tripping? Planning an upgrade?"
+        subheading="Call for same-week dispatch, or send us the details and we'll come back with a free, fixed-price quote."
+        location="home-mid"
+      />
+
+      <FaqSection faqs={generalFaqs()} />
+
+      {/* Quote form */}
+      <section id="quote" className="bg-slate-100 px-4 py-16">
+        <div className="mx-auto max-w-xl">
+          <div className="rounded-xl border border-slate-300 bg-white p-8 shadow-md">
+            <h2 className="text-center text-2xl font-bold text-slate-900">
+              Request a Free Quote
+            </h2>
+            <p className="mt-2 text-center text-sm text-slate-600">
+              Tell us about your project. We review every request and get back to
+              you with next steps.
+            </p>
+            <div className="mt-6">
+              <QuoteForm services={services} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

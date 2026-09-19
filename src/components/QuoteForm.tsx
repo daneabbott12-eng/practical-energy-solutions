@@ -1,148 +1,207 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import type { Service } from "@/lib/services";
+import React, { useState } from 'react';
+import type { Service } from '@/lib/services';
 
-type Status = "idle" | "submitting" | "success";
+/**
+ * Quote request form.
+ *
+ * Mobile conversion details that matter here:
+ * - every control clears a 44px tap height
+ * - `inputMode` / `autoComplete` / `type` are set so phones show the right
+ *   keyboard and offer autofill, which measurably cuts abandonment
+ * - `text-base` (16px) on inputs stops iOS Safari from zooming on focus
+ * - the submit button reports its own state and never silently no-ops
+ */
+export default function QuoteForm({
+  services,
+  defaultService,
+}: {
+  services: Service[];
+  /** Preselects the dropdown, e.g. on a specific service's page. */
+  defaultService?: string;
+}) {
+  const initialService = defaultService ?? services[0]?.title ?? '';
 
-export default function QuoteForm({ services }: { services: Service[] }) {
-  const [status, setStatus] = useState<Status>("idle");
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    message: "",
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    projectType: initialService,
+    description: '',
   });
+  const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({
+    type: null,
+    message: '',
+  });
+  const [loading, setLoading] = useState(false);
 
-  function update<K extends keyof typeof form>(key: K, value: string) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus({ type: null, message: '' });
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setStatus("submitting");
-    // No backend yet: simulate a successful submission. Swap this for a real
-    // server action / API route when the lead pipeline is ready.
-    setStatus("success");
-  }
+    try {
+      const res = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-  if (status === "success") {
-    return (
-      <div className="rounded-xl border border-brand/30 bg-brand/5 p-6">
-        <h2 className="text-lg font-semibold text-gray-900">
-          Thanks, {form.name || "there"}!
-        </h2>
-        <p className="mt-2 text-sm text-gray-600">
-          Your quote request has been received. A Practical Energy Solutions
-          electrician will reach out
-          {form.email ? ` at ${form.email}` : ""} shortly.
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            setForm({ name: "", email: "", phone: "", service: "", message: "" });
-            setStatus("idle");
-          }}
-          className="mt-4 text-sm font-medium text-brand hover:text-brand-dark"
-        >
-          Submit another request
-        </button>
-      </div>
-    );
-  }
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setStatus({
+          type: 'success',
+          message: "Request received — we'll call you back shortly. Need it sooner? Call us directly.",
+        });
+        // Reset back to the page's own default service, not a hardcoded one.
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          projectType: initialService,
+          description: '',
+        });
+      } else {
+        throw new Error(data.error || 'Failed to submit request.');
+      }
+    } catch (err) {
+      setStatus({
+        type: 'error',
+        message:
+          err instanceof Error && err.message
+            ? `${err.message} Please call us instead — we don't want to lose your request.`
+            : "Something went wrong. Please call us instead — we don't want to lose your request.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const field =
+    'w-full min-h-[44px] rounded border border-slate-300 p-2.5 text-base text-slate-900 outline-none focus:ring-2 focus:ring-amber-500';
+  const labelClass =
+    'mb-1 block text-xs font-bold uppercase tracking-wide text-slate-700';
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-4 text-slate-800">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-          Name
+        <label className={labelClass} htmlFor="quote-name">
+          Your Name
         </label>
         <input
-          id="name"
+          id="quote-name"
           name="name"
           type="text"
           required
-          value={form.name}
-          onChange={(e) => update("name", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+          autoComplete="name"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          className={field}
+          placeholder="First and Last Name"
         />
       </div>
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          value={form.email}
-          onChange={(e) => update("email", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
-        />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div>
+          <label className={labelClass} htmlFor="quote-phone">
+            Phone Number
+          </label>
+          <input
+            id="quote-phone"
+            name="phone"
+            type="tel"
+            required
+            inputMode="tel"
+            autoComplete="tel"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            className={field}
+            placeholder="(405) 555-0123"
+          />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="quote-email">
+            Email Address
+          </label>
+          <input
+            id="quote-email"
+            name="email"
+            type="email"
+            required
+            inputMode="email"
+            autoComplete="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className={field}
+            placeholder="name@example.com"
+          />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-          Phone <span className="text-gray-400">(optional)</span>
-        </label>
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          value={form.phone}
-          onChange={(e) => update("phone", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="service" className="block text-sm font-medium text-gray-700">
-          Service
+        <label className={labelClass} htmlFor="quote-service">
+          Project Type
         </label>
         <select
-          id="service"
-          name="service"
-          required
-          value={form.service}
-          onChange={(e) => update("service", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+          id="quote-service"
+          name="projectType"
+          value={formData.projectType}
+          onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+          className={`${field} bg-white`}
         >
-          <option value="" disabled>
-            Select a service&hellip;
-          </option>
           {services.map((service) => (
-            <option key={service.slug} value={service.slug}>
+            <option key={service.slug} value={service.title}>
               {service.title}
             </option>
           ))}
+          <option value="Other / Not sure">Other / Not sure</option>
         </select>
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-          How can we help?
+        <label className={labelClass} htmlFor="quote-description">
+          Project Description
         </label>
         <textarea
-          id="message"
-          name="message"
-          rows={4}
+          id="quote-description"
+          name="description"
           required
-          value={form.message}
-          onChange={(e) => update("message", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+          rows={4}
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          className={field}
+          placeholder="Describe the electrical work you need, and your address or city…"
         />
       </div>
 
+      {status.type && (
+        <div
+          role="status"
+          aria-live="polite"
+          className={`rounded border p-3 text-sm font-medium ${
+            status.type === 'success'
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+              : 'border-rose-200 bg-rose-50 text-rose-800'
+          }`}
+        >
+          {status.message}
+        </div>
+      )}
+
       <button
         type="submit"
-        disabled={status === "submitting"}
-        className="w-full rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60 sm:w-auto"
+        disabled={loading}
+        data-cta="quote-submit"
+        className="min-h-[48px] w-full rounded bg-slate-900 py-3 font-bold text-white transition hover:bg-slate-800 disabled:opacity-50"
       >
-        {status === "submitting" ? "Sending…" : "Request a quote"}
+        {loading ? 'Submitting…' : 'Request My Free Quote'}
       </button>
+
+      <p className="text-center text-xs text-slate-500">
+        Free quotes on planned work. No obligation.
+      </p>
     </form>
   );
 }

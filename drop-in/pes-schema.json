@@ -1,0 +1,123 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": ["Electrician", "LocalBusiness"],
+    "@id": "https://www.practicalenergyok.com/#business",
+    "name": "Practical Energy Solutions LLC",
+    "alternateName": "Practical Energy Solutions",
+    "description": "Licensed Oklahoma electrical contractor serving the OKC metro: complex troubleshooting, new construction wiring, residential and commercial remodels, and EV charger installation. Bonded and insured. NEC compliant.",
+    "url": "https://www.practicalenergyok.com",
+    "email": "dane.abbott12@gmail.com",
+    "telephone": "+1-405-816-7292",
+    "priceRange": "$$",
+    "paymentAccepted": "Cash, Check, Credit Card, Debit Card, Invoice",
+    "currenciesAccepted": "USD",
+    "founder": { "@type": "Person", "name": "Dane Abbott" },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Oklahoma City",
+      "addressRegion": "OK",
+      "addressCountry": "US"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "07:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday"],
+        "opens": "09:00",
+        "closes": "17:00"
+      }
+    ],
+    "areaServed": [
+      { "@type": "City", "name": "Oklahoma City", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Edmond", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Moore", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Norman", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Midwest City", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Del City", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Yukon", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Mustang", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Bethany", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Warr Acres", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "The Village", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Nichols Hills", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "Choctaw", "containedInPlace": { "@type": "State", "name": "Oklahoma" } },
+      { "@type": "City", "name": "El Reno", "containedInPlace": { "@type": "State", "name": "Oklahoma" } }
+    ],
+    "serviceArea": {
+      "@type": "GeoCircle",
+      "geoMidpoint": { "@type": "GeoCoordinates", "latitude": 35.4676, "longitude": -97.5164 },
+      "geoRadius": 80000
+    },
+    "knowsAbout": [
+      "Electrical troubleshooting",
+      "New construction wiring",
+      "Electrical remodels",
+      "Electrical panel upgrades",
+      "EV charger installation",
+      "National Electrical Code (NEC) compliance"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Electrical Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Complex Electrical Troubleshooting",
+            "description": "Trace the real cause — then repair it to code.",
+            "url": "https://www.practicalenergyok.com/troubleshooting",
+            "provider": { "@id": "https://www.practicalenergyok.com/#business" }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "New Construction Wiring",
+            "description": "Service to switch — wired and inspection-ready.",
+            "url": "https://www.practicalenergyok.com/service-areas/new-construction",
+            "provider": { "@id": "https://www.practicalenergyok.com/#business" }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Residential & Commercial Remodels",
+            "description": "More circuits, more capacity, current code.",
+            "url": "https://www.practicalenergyok.com/remodels-construction",
+            "provider": { "@id": "https://www.practicalenergyok.com/#business" }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "EV Charger Installation",
+            "description": "Level 2 charging, sized to your panel.",
+            "url": "https://www.practicalenergyok.com/ev-charging",
+            "provider": { "@id": "https://www.practicalenergyok.com/#business" }
+          }
+        }
+      ]
+    },
+    "sameAs": ["https://share.google/CqsyXEmo4I8RzmMug"],
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "license",
+      "name": "Oklahoma Electrical Contractor License",
+      "identifier": "00196169",
+      "recognizedBy": {
+        "@type": "GovernmentOrganization",
+        "name": "Oklahoma Construction Industries Board"
+      }
+    }
+  }
+]

@@ -1,56 +1,100 @@
 import Link from "next/link";
+import CallButton from "@/components/CallButton";
+import { BUSINESS } from "@/lib/business";
 import { getAllServices } from "@/lib/services";
 
+/**
+ * Sticky site header with a persistent click-to-call button.
+ *
+ * The call button is rendered at every breakpoint — on mobile it sits beside
+ * the wordmark, on desktop it anchors the right edge of the nav. It is the one
+ * control that must never scroll out of reach.
+ *
+ * Nav links are padded to a 44px minimum tap height. The previous version used
+ * unpadded 14px text links in a horizontal scroller, which were roughly 20px
+ * tall and easy to miss on a phone.
+ */
 export default function Header() {
   const services = getAllServices();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-lg font-bold tracking-tight text-brand">
-          Practical Energy Solutions
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <nav
+        aria-label="Primary"
+        className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5"
+      >
+        <Link
+          href="/"
+          className="flex min-h-[44px] items-center text-base font-bold leading-tight tracking-tight text-slate-900 sm:text-lg"
+        >
+          Practical Energy&nbsp;Solutions
         </Link>
 
-        {/* Mobile-first: links wrap and stay tappable; spread out on larger screens. */}
-        <ul className="hidden gap-6 text-sm font-medium text-gray-700 sm:flex">
-          {services.map((service) => (
-            <li key={service.slug}>
-              <Link
-                href={`/${service.slug}`}
-                className="transition-colors hover:text-brand"
-              >
-                {service.title}
-              </Link>
-            </li>
-          ))}
+        <ul className="hidden items-center gap-1 text-sm font-medium text-slate-700 lg:flex">
+          <li>
+            <Link
+              href="/services"
+              className="flex min-h-[44px] items-center rounded px-3 transition-colors hover:text-amber-700"
+            >
+              Services
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/service-areas"
+              className="flex min-h-[44px] items-center rounded px-3 transition-colors hover:text-amber-700"
+            >
+              Service Areas
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/faq"
+              className="flex min-h-[44px] items-center rounded px-3 transition-colors hover:text-amber-700"
+            >
+              FAQ
+            </Link>
+          </li>
           <li>
             <Link
               href="/contact"
-              className="rounded-md bg-brand px-3 py-1.5 text-white transition-colors hover:bg-brand-dark"
+              data-cta="quote"
+              data-cta-location="header"
+              className="flex min-h-[44px] items-center rounded border-2 border-slate-900 px-4 font-bold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white"
             >
-              Get a quote
+              Free Quote
             </Link>
           </li>
         </ul>
+
+        {/* Persistent click-to-call — present at every breakpoint. */}
+        <CallButton
+          variant="compact"
+          location="header"
+          className="shrink-0"
+          label={BUSINESS.phone.display}
+        />
       </nav>
 
-      {/* Compact horizontal scroll nav for small screens. */}
-      <div className="flex gap-4 overflow-x-auto border-t border-gray-100 px-4 py-2 text-sm sm:hidden">
-        {services.map((service) => (
+      {/* Service shortcuts for small screens. */}
+      <div className="border-t border-slate-100 lg:hidden">
+        <div className="flex gap-1 overflow-x-auto px-3 py-1 text-sm">
+          {services.map((service) => (
+            <Link
+              key={service.slug}
+              href={`/${service.slug}`}
+              className="flex min-h-[44px] shrink-0 items-center whitespace-nowrap px-3 font-medium text-slate-700"
+            >
+              {service.shortLabel}
+            </Link>
+          ))}
           <Link
-            key={service.slug}
-            href={`/${service.slug}`}
-            className="whitespace-nowrap font-medium text-gray-700"
+            href="/service-areas"
+            className="flex min-h-[44px] shrink-0 items-center whitespace-nowrap px-3 font-medium text-slate-700"
           >
-            {service.title}
+            Service Areas
           </Link>
-        ))}
-        <Link
-          href="/contact"
-          className="whitespace-nowrap font-semibold text-brand"
-        >
-          Get a quote
-        </Link>
+        </div>
       </div>
     </header>
   );

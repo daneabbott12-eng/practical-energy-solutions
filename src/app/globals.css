@@ -2,20 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * The site is designed light-only (slate/amber on white). The previous
+ * `prefers-color-scheme: dark` block flipped the body background to near-black
+ * and the text to near-white while every section kept its own light background
+ * — producing white-on-white text in any area that didn't set its own colors.
+ * Removed rather than patched: a half-implemented dark theme is worse than
+ * none, and this is not a theme-switching product.
+ */
 :root {
   --background: #ffffff;
-  --foreground: #0a0a0a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #0f172a;
+  /* Sticky header height, so in-page anchors don't land under the header. */
+  --header-offset: 7rem;
 }
 
 html {
   scroll-behavior: smooth;
+  /* Keeps #services / #quote jumps clear of the sticky header. */
+  scroll-padding-top: var(--header-offset);
 }
 
 body {
@@ -23,4 +28,22 @@ body {
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Visible keyboard focus — the Tailwind reset strips the default outline on
+   several interactive elements. */
+:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* <details> markers are styled by FaqSection; hide the native triangle. */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
