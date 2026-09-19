@@ -128,3 +128,7 @@ redirects for roughly 70 indexed URLs, not a deploy.
 The `drop-in/` directory holds work intended for the live codebase instead:
 corrected JSON-LD (`pes-schema.json`, `pes-faq.json`) and a writeup of the
 sitewide `og:title` bug and its fix (`og-title-fix.md`).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
