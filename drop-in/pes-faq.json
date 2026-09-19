@@ -1,0 +1,110 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "When should I upgrade a 100A panel to 200A service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upgrade when you are adding load the existing service cannot carry: an EV charger, an electric range or dryer conversion, a heat pump, a hot tub, or a finished shop or garage. You should also upgrade if the panel is full with no room for breakers, if it is a Federal Pacific Stab-Lok or Zinsco panel (both have documented failure-to-trip problems), or if you see scorching, buzzing, or breakers that trip under normal load. A licensed electrician performs an NEC Article 220 load calculation to confirm what your home actually needs before any work is quoted."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does a 100A to 200A panel upgrade cost in Oklahoma?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most 100A to 200A service upgrades in the Oklahoma City metro run $1,800 to $4,000. The spread comes down to whether the meter base and service mast are replaced, how far the panel sits from the meter, whether the grounding electrode system needs to be brought up to current code, and whether the utility has to disconnect and reconnect the service drop. The permit and inspection are included in a proper quote — if a bid does not mention a permit, that is a red flag."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to rewire a house in Oklahoma?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A whole-home rewire in the OKC metro typically falls between $8,000 and $20,000 for a single-story home, driven mostly by square footage, attic and crawlspace access, plaster versus drywall, and how much of the original wiring must be abandoned in place. Partial rewires — replacing just the aluminum branch circuits or the knob-and-tube runs a home inspector flagged — are far less. We walk the house, count the circuits and devices, and give you a fixed price rather than an hourly guess."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to install a Level 2 EV charger at home?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A straightforward Level 2 installation — panel with spare capacity, charger mounted in the garage near the panel — commonly runs $800 to $2,000 installed, not counting the charger unit itself. Cost climbs when the run is long, when the route goes through finished walls or under a slab, or when the panel is full and needs a subpanel or a service upgrade first. We start with a load calculation so you know up front which situation you are in."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a permit for electrical work in Oklahoma City?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, for most work beyond simple like-for-like device replacement. Panel upgrades, service changes, new circuits, rewires, and EV charger installations all require a permit and inspection in OKC and the surrounding metro cities. Only a licensed electrical contractor can pull that permit. Practical Energy Solutions pulls the permit and coordinates the inspection as part of the job — you should never be asked to pull a homeowner permit for work a contractor is performing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my Federal Pacific or Zinsco panel actually dangerous?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Both are known-defective designs. Federal Pacific Stab-Lok breakers have a documented rate of failing to trip under overload, and Zinsco breakers can weld themselves to the bus bar. A breaker that does not trip leaves the wiring in your walls as the only thing standing between a fault and a fire. Many insurers now surcharge or decline coverage on homes with either panel. Replacement is the only real remedy — these panels cannot be repaired to a safe condition."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my breaker keep tripping?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A breaker that trips repeatedly is doing its job — something is wrong. The three usual causes are an overloaded circuit (too much plugged into one branch), a short circuit (a damaged conductor or a failed appliance), or a ground fault (current leaking to ground, common in kitchens, baths, garages, and outdoor circuits). Resetting it over and over is the one thing you should not do. We trace the fault to the specific circuit, device, or appliance rather than replacing the breaker and hoping."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you charge for a diagnostic or service call?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — a diagnostic fee of $89 to $149 covers the trip and the time to actually find the fault, and it is credited toward the repair when you approve the work. Troubleshooting is skilled labor: the value is in correctly identifying the problem, which is exactly what a free-estimate model cannot pay for. Quotes on planned work like panel upgrades, rewires, remodels, and EV chargers are always free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are you licensed and insured?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Practical Energy Solutions is a licensed Oklahoma electrical contractor (OK Lic. #00196169), bonded and insured. Every job is performed to the National Electrical Code as adopted by the State of Oklahoma. You can verify any Oklahoma electrical contractor's license status through the Construction Industries Board's public license search before you hire."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What kind of electrical work do you do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Troubleshooting and repairs, new construction wiring, residential and commercial remodels, and EV charger installation. Panel upgrades, added circuits, and code-update work fall under our remodel and repair services."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you handle both residential and commercial?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — homes and commercial properties."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer emergency service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — commercial emergency calls are answered 24/7 at (405) 816-7292. Residential work is scheduled Mon–Fri 7–5 and Sat 9–5."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What areas do you serve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Oklahoma City metro — Oklahoma City, Edmond, Moore, Norman, Midwest City, Del City, Yukon, Mustang, Bethany, Warr Acres, The Village, Nichols Hills, Choctaw, El Reno, and surrounding communities."
+      }
+    }
+  ]
+}
