@@ -84,6 +84,16 @@ export default function ContactPage() {
               <p className="mt-1 text-sm text-slate-600">
                 {BUSINESS.hoursSummary}
               </p>
+              {BUSINESS.email && (
+                <a
+                  href={`mailto:${BUSINESS.email}`}
+                  data-cta="email"
+                  data-cta-location="contact-sidebar"
+                  className="mt-2 flex min-h-[44px] items-center text-sm font-medium text-slate-700 hover:text-amber-700"
+                >
+                  {BUSINESS.email}
+                </a>
+              )}
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-white p-6">

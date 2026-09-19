@@ -26,6 +26,16 @@ export default function Footer() {
             {BUSINESS.phone.display}
           </a>
           <p className="text-sm text-slate-600">{BUSINESS.hoursSummary}</p>
+          {BUSINESS.email && (
+            <a
+              href={`mailto:${BUSINESS.email}`}
+              data-cta="email"
+              data-cta-location="footer"
+              className="flex min-h-[44px] items-center text-sm text-slate-600 hover:text-amber-700"
+            >
+              {BUSINESS.email}
+            </a>
+          )}
           {BUSINESS.license && (
             <p className="mt-2 text-sm text-slate-600">
               OK {BUSINESS.license.type} License #{BUSINESS.license.number}
